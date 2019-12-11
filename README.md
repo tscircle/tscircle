@@ -5,7 +5,7 @@ This repository contains a boilerplate around the [tscircle framework](https://g
 
 ##### Table of Contents  
 [Summary](#summary)  
-[Local development](#development) 
+[Local development](#development)   
 [Deployment](#deployment)  
 
 
