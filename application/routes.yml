@@ -1,0 +1,26 @@
+internalUserRestEndpoint:
+  handler: application/domain/users/controllers/userController.restHandler
+  events:
+  - http:
+      path: /internal/user/{id}
+      method: ANY
+      cors: true
+  - http:
+      path: /internal/user
+      method: ANY
+      cors: true
+
+queueListener:
+  handler: application/command/sqsTrigger.handler
+  timeout: 120
+  events:
+  - sqs:
+      arn: !GetAtt SQSQueue.Arn
+
+smokeTestCommand:
+  handler: application/command/smokeTestCommand.handler
+  timeout: 120
+
+migrateCommand:
+  handler: application/command/migrateCommand.handler
+  timeout: 120
