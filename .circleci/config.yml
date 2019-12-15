@@ -82,9 +82,13 @@ jobs:
         command: |
           sudo npm install -g serverless
     - run:
-        Name: Set Global Env Vars
+        name: Set Global Env Vars
         command: |
           cat envVars >> $BASH_ENV
+    - run:
+        name: Prewarm database with migrate command
+        command: |
+          sls invoke -f migrateCommand --stage $STAGE
     - run:
         name: Serverless deployment
         command: |
