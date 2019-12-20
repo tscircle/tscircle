@@ -24,3 +24,9 @@ smokeTestCommand:
 migrateCommand:
   handler: application/command/migrateCommand.handler
   timeout: 120
+
+rdsEC2PauseSync:
+  dispatcher:
+    handler: pplication/command/rdsEC2PauseSyncCommand.handler
+    events:
+      - sns: AuroraRDSSNSTopic

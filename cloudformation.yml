@@ -1,5 +1,5 @@
 Resources:
-  #Laravel Application Key
+  #Application Key
   AppKey:
     Type: AWS::SecretsManager::Secret
     Properties:
@@ -73,6 +73,25 @@ Resources:
       Tags:
       - Key: Name
         Value: ${self:custom.UUID}
+
+  AuroraRDSSNSTopic:
+    Type: AWS::SNS::Topic
+    Properties:
+      DisplayName: 'AuroraRDSSNSTopic'
+      Subscription:
+      - Subscription
+      TopicName: String
+
+  AuroraRDSEventSubscription:
+    Type: AWS::RDS::EventSubscription
+    Properties:
+      EventCategories:
+      - "configuration change"
+      - "failure"
+      - "deletion"
+      SnsTopicArn: !Ref AuroraRDSSNSTopic
+      SourceIds: [!Ref AuroraRDSCluster]
+      SourceType: 'db-instance'
 
   #DynamoDB Cache
   DynamoDB:
