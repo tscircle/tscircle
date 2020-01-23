@@ -77,21 +77,20 @@ Resources:
   AuroraRDSSNSTopic:
     Type: AWS::SNS::Topic
     Properties:
-      DisplayName: 'AuroraRDSSNSTopic'
-      Subscription:
-      - Subscription
-      TopicName: String
+      TopicName: AuroraRDSSNSTopic
+      # Subscription:
+      # - Subscription
 
   AuroraRDSEventSubscription:
     Type: AWS::RDS::EventSubscription
+    DependsOn: AuroraRDSCluster
     Properties:
+      Enabled: true
       EventCategories:
-      - "configuration change"
-      - "failure"
-      - "deletion"
+        - notification
       SnsTopicArn: !Ref AuroraRDSSNSTopic
       SourceIds: [!Ref AuroraRDSCluster]
-      SourceType: 'db-instance'
+      SourceType: db-cluster
 
   #DynamoDB Cache
   DynamoDB:

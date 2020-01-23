@@ -45,7 +45,7 @@ class DeployChain {
         }
 
         const pem = JSON.parse(this.exec("aws ec2 create-key-pair --key-name " + this.getConfig().uuid + this.setRegionArgument() + this.setProfileArgument()));
-        this.exec("aws ssm put-parameter --name " + this.getConfig().uuid + " --type String --value '" + pem.KeyMaterial + "' --overwrite --region " + this.getConfig().region + this.setProfileArgument());
+        this.exec("aws ssm put-parameter --name " + this.getConfig().uuid + " --type String --value \"" + pem.KeyMaterial + "\" --overwrite --region " + this.getConfig().region + this.setProfileArgument());
     }
 
     ssh() {
@@ -149,7 +149,7 @@ class DeployChain {
     }
 
     hasKey(name) {
-        const items = JSON.parse(this.exec("aws ec2 describe-key-pairs --filters 'Name=key-name,Values=" + name + "'" + this.setRegionArgument() + this.setProfileArgument()));
+        const items = JSON.parse(this.exec("aws ec2 describe-key-pairs --filters \"Name=key-name,Values=" + name + "\"" + this.setRegionArgument() + this.setProfileArgument()));
 
         if (items.KeyPairs.length && items.KeyPairs.filter(key => {
             return key.KeyName === name
@@ -159,7 +159,7 @@ class DeployChain {
     }
 
     hasParameter(name) {
-        const items = JSON.parse(this.exec("aws ssm describe-parameters --filters 'Key=Name,Values=" + name + "'" + this.setRegionArgument() + this.setProfileArgument()));
+        const items = JSON.parse(this.exec("aws ssm describe-parameters --filters \"Key=Name,Values=" + name + "\"" + this.setRegionArgument() + this.setProfileArgument()));
 
         if (items.Parameters.length && items.Parameters.filter(key => {
             return key.Name === name
