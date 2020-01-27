@@ -21,6 +21,7 @@
     "@types/knex": "^0.14.26",
     "@types/mocha": "^5.2.7",
     "@types/node": "^12.7.5",
+    "aws-sdk": "^2.610.0",
     "chai": "^4.2.0",
     "chai-http": "^4.3.0",
     "esserializer": "^1.0.0",

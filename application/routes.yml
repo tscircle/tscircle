@@ -28,6 +28,9 @@ migrateCommand:
 rdsEC2PauseSync:
   # dispatcher:
   handler: application/command/rdsEC2PauseSyncCommand.handler
+  timeout: 12
+  environment:
+    BASTION_HOST_INSTANCE_ID: !Ref BastionHost
   events:
     - sns:
         arn: !Ref AuroraRDSSNSTopic
