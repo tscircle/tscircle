@@ -26,8 +26,10 @@ migrateCommand:
   timeout: 120
 
 rdsEC2PauseSync:
-  # dispatcher:
   handler: application/command/rdsEC2PauseSyncCommand.handler
+  vpc:
+    securityGroupIds: []
+    subnetIds: []
   timeout: 12
   environment:
     BASTION_HOST_INSTANCE_ID: !Ref BastionHost

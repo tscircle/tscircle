@@ -1,5 +1,5 @@
 Resources:
-  Application Key
+  #Application Key
   AppKey:
     Type: AWS::SecretsManager::Secret
     Properties:
@@ -9,7 +9,7 @@ Resources:
         PasswordLength: 32
         ExcludeCharacters: '"@/\'
 
-  SQS queue
+  #SQS queue
   SQSQueue:
     Type: AWS::SQS::Queue
     DependsOn: SQSDLQueue
@@ -92,7 +92,7 @@ Resources:
       SourceIds: [!Ref AuroraRDSCluster]
       SourceType: db-cluster
 
-  DynamoDB Cache
+  #DynamoDB Cache
   DynamoDB:
     Type: AWS::DynamoDB::Table
     Properties:
@@ -319,14 +319,14 @@ Resources:
       RouteTableId:
         Ref: ServerlessPublicRTB
 
-  # ServerlessRoute:
-  #   Type: AWS::EC2::Route
-  #   Properties:
-  #     DestinationCidrBlock: 0.0.0.0/0
-  #     InstanceId:
-  #       Ref: BastionHost
-  #     RouteTableId:
-  #       Ref: ServerlessRTB
+  ServerlessRoute:
+    Type: AWS::EC2::Route
+    Properties:
+      DestinationCidrBlock: 0.0.0.0/0
+      InstanceId:
+        Ref: BastionHost
+      RouteTableId:
+        Ref: ServerlessRTB
 
   ServerlessSubnetRTAA:
     Type: AWS::EC2::SubnetRouteTableAssociation
@@ -359,22 +359,3 @@ Resources:
         Ref: ServerlessPublicRTB
       SubnetId:
         Ref: ServerlessSubnetP
-  
-  ServerlessEIP:
-    Type: AWS::EC2::EIP
-    Properties: 
-      Domain: vpc
-  
-  ServerlessNATGateway:
-    Type: AWS::EC2::NatGateway
-    Properties: 
-      AllocationId: !GetAtt ServerlessEIP.AllocationId
-      SubnetId: !Ref ServerlessSubnetP
-  
-  ServerlessNATRoute:
-    Type: AWS::EC2::Route
-    Properties:
-      DestinationCidrBlock: 0.0.0.0/0
-      RouteTableId:
-        Ref: ServerlessRTB
-      NatGatewayId: !Ref ServerlessNATGateway
