@@ -40,7 +40,8 @@ All resources are defined as a Cloudformation template in the serverless.yml fil
 All resources have been paid for in a pay-as-you-go model. 
 
 Since all resources are located in private subnets and hosted in a VPC, an EC2 instance is placed in a public subnet as a bastion host and NAT instance.
-The NAT instance replaces a NAT gateway (~ 40€/month) with which Lambda functions can access the Internet. 
+The NAT instance replaces a NAT gateway (~ 40€/month) with which Lambda functions can access the Internet.
+The bastion host pauses/resumes corresponding to the RDS Aurora Database state change i.e. the bastion host is paused when the database is paused and resumes as soon as the database is resumed.
 The instance type is t2.nano and costs about 5€ per month. 
 
 In some places this project is still a bit raw, because it is still quite new, so **feel free to contribute!**

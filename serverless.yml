@@ -44,6 +44,12 @@ provider:
   - Effect: Allow
     Action: 'secretsmanager:GetSecretValue'
     Resource: !Ref DBSecret
+  - Effect: Allow
+    Action: ec2:*
+    Resource: "*"
+  - Effect: Allow
+    Action: kms:*
+    Resource: "*"
   environment:
     APP_KEY: !Sub '{{resolve:secretsmanager:${self:custom.UUID}-APP_KEY}}'
     DB_HOST:

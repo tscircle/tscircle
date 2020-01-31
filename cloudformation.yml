@@ -1,5 +1,5 @@
 Resources:
-  #Laravel Application Key
+  #Application Key
   AppKey:
     Type: AWS::SecretsManager::Secret
     Properties:
@@ -73,6 +73,24 @@ Resources:
       Tags:
       - Key: Name
         Value: ${self:custom.UUID}
+
+  AuroraRDSSNSTopic:
+    Type: AWS::SNS::Topic
+    Properties:
+      TopicName: AuroraRDSSNSTopic
+      # Subscription:
+      # - Subscription
+
+  AuroraRDSEventSubscription:
+    Type: AWS::RDS::EventSubscription
+    DependsOn: AuroraRDSCluster
+    Properties:
+      Enabled: true
+      EventCategories:
+        - notification
+      SnsTopicArn: !Ref AuroraRDSSNSTopic
+      SourceIds: [!Ref AuroraRDSCluster]
+      SourceType: db-cluster
 
   #DynamoDB Cache
   DynamoDB:
@@ -222,7 +240,8 @@ Resources:
       CidrBlock: ${self:custom.VPC_CIDR}.0.3.0/24
       Tags:
       - Key: Name
-        Value: ${self:custom.UUID}-public
+        Value: ${self:custom.UUID}-
+        
 
   DynamoDBEndpoint:
     Type: "AWS::EC2::VPCEndpoint"
@@ -280,6 +299,7 @@ Resources:
       Tags:
       - Key: Name
         Value: ${self:custom.UUID}
+
 
   ServerlessPublicRTB:
     Type: AWS::EC2::RouteTable
